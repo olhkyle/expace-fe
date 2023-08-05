@@ -1,6 +1,48 @@
 import { css } from '@emotion/react';
 
 const GlobalStyle = css`
+	:root {
+		font-weight: 400;
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-text-size-adjust: 100%;
+
+		--color-black: #191a20;
+		--color-white: #fff;
+
+		--color-gray-50: #f7f7f7;
+		--color-gray-100: #f9fafb;
+		--color-gray-200: #f5f3f0;
+		--color-gray-300: #eff0ec;
+		--color-gray-400: #e7e7e9;
+		--color-gray-500: #818890;
+		--color-gray-600: #4b4c53;
+		--color-gray-700: #3a3d4a;
+		--color-gray-800: #2e3039;
+		--color-gray-900: #1f2028;
+
+		--color-green-100: #76e4b8;
+		--color-green-200: #3fd599;
+		--color-green-300: #15c47e;
+		--color-green-400: #0e7b6c;
+
+		--color-blue-100: #0687f0;
+		--color-blue-200: #2272eb;
+		--color-blue-300: #e8f2ff;
+
+		--color-purple: #6466f1;
+
+		--color-yellow: #ffd644;
+
+		--color-orange-100: #ffa927;
+		--color-orange-200: #fe9800;
+
+		--color-red: #ff4545;
+		--color-dark: #090b16;
+	}
+
 	* {
 		box-sizing: border-box;
 		margin: 0;

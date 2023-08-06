@@ -1,13 +1,32 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Input } from '..';
+import { Flex, Input, Spacer, Text } from '..';
+import { Link } from 'react-router-dom';
+import { SIGNUP } from '../../constants/routes';
+
+interface SigninFormProps {}
 
 const SigninForm = () => {
 	return (
 		<Form>
-			<Input type="text" name="email" placeholder="Enter your email" width={500} />
-			<Input type="password" name="password" placeholder="Enter your Password" width={500} />
-			<NextBtn type="button">Next</NextBtn>
+			<Spacer size={24} />
+			<Wrapper>
+				<Text typo="h2" color={'var(--color-black)'}>
+					↳ Explore Space
+				</Text>
+			</Wrapper>
+			<Spacer size={12} />
+			<Input label="Email">
+				<Input.TextField type="text" name="email" placeholder="Enter your email" width={500} />
+			</Input>
+			<Input label="Password">
+				<Input.TextField type="password" name="password" placeholder="Enter your Password" width={500} />
+			</Input>
+			<NextBtn type="button">Explore</NextBtn>
+			<Flex justifyContent="center">
+				<Text color="var(--color-gray-600)">Don't have an account?</Text>
+				<Spacer direction="horizontal" size={8} />
+				<SignUpLink to={SIGNUP}>Sign up</SignUpLink>
+			</Flex>
 		</Form>
 	);
 };
@@ -18,14 +37,30 @@ const Form = styled.form`
 	gap: 1rem;
 `;
 
+const Wrapper = styled.div`
+	div {
+		font-size: 40px;
+	}
+`;
+
 const NextBtn = styled.button`
-	padding: 0.5rem 1rem;
+	margin-top: 1rem;
+	padding: 0.75rem 1rem;
+	font-size: 16px;
+	font-weight: 600;
 	border-radius: 8px;
-	color: #fff;
-	background-color: #000;
+	color: var(--color-white);
+	background-color: var(--color-black);
 
 	&:hover {
-		background-color: #1d1d1d;
+		background-color: var(--color-gray-800);
+	}
+`;
+
+const SignUpLink = styled(Link)`
+	font-weight: 600;
+	&:hover {
+		text-decoration: underline;
 	}
 `;
 

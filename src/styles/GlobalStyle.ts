@@ -17,7 +17,7 @@ const GlobalStyle = css`
 		--color-gray-200: #f5f3f0;
 		--color-gray-300: #eff0ec;
 		--color-gray-400: #e7e7e9;
-		--color-gray-500: #818890;
+		--color-gray-500: #b8b8b8;
 		--color-gray-600: #4b4c53;
 		--color-gray-700: #3a3d4a;
 		--color-gray-800: #2e3039;
@@ -30,7 +30,7 @@ const GlobalStyle = css`
 
 		--color-blue-100: #0687f0;
 		--color-blue-200: #2272eb;
-		--color-blue-300: #e8f2ff;
+		--color-blue-300: #0164e6;
 
 		--color-purple: #6466f1;
 

@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 
 interface FlexProps extends HTMLAttributes<HTMLDivElement> {
 	direction?: 'row' | 'column';
-	justifyContent?: 'flex-start' | 'flex-end' | 'justify-between' | 'center';
+	justifyContent?: 'flex-start' | 'flex-end' | 'space-between' | 'center';
 	alignItems?: 'flex-start' | 'flex-end' | 'center';
 }
 

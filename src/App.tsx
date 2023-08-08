@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Global } from '@emotion/react';
 import GlobalStyle from './styles/GlobalStyle';
 import { Layout } from './components';
-import { Home, Reservation, SignIn, SignUp, Space, About } from './pages';
+import { Home, Reservation, SignIn, SignUp, Space, About, ForgotPassword } from './pages';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -31,6 +31,10 @@ const router = createBrowserRouter([
 			{
 				path: '/signup',
 				element: <SignUp />,
+			},
+			{
+				path: '/password-resets',
+				element: <ForgotPassword />,
 			},
 			{
 				path: '/space',

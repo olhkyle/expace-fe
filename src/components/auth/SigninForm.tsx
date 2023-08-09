@@ -1,27 +1,66 @@
 import styled from '@emotion/styled';
-import { Flex, Input, Spacer, Text } from '..';
+import { Flex, Form, Input, Spacer, Text } from '..';
 import { Link } from 'react-router-dom';
 import { SIGNUP } from '../../constants/routes';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signinSchema } from './schema';
+import { useEffect } from 'react';
 
 interface SigninFormProps {}
 
+type SigninSchema = z.infer<typeof signinSchema>;
+
 const SigninForm = () => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+		setFocus,
+	} = useForm<SigninSchema>({
+		resolver: zodResolver(signinSchema),
+		shouldFocusError: true,
+	});
+
+	const onSubmit = (data: SigninSchema) => {
+		console.log(data);
+	};
+
+	useEffect(() => {
+		setFocus('email');
+	}, [setFocus]);
+
 	return (
-		<Form>
+		<Form onSubmit={handleSubmit(onSubmit)}>
 			<Spacer size={24} />
-			<Wrapper>
+			<TitleWrapper>
 				<Text typo="h2" color={'var(--color-black)'}>
 					↳ Explore Space
 				</Text>
-			</Wrapper>
+			</TitleWrapper>
 			<Spacer size={12} />
-			<Input label="Email">
-				<Input.TextField type="text" name="email" placeholder="Enter your email" width={500} />
+			<Input label="Email" bottomText={errors?.email?.message}>
+				<Input.TextField
+					type="text"
+					placeholder="Enter your email"
+					{...register('email')}
+					error={errors?.email?.message}
+					width={500}
+				/>
 			</Input>
-			<Input label="Password">
-				<Input.TextField type="password" name="password" placeholder="Enter your Password" width={500} />
+			<Input label="Password" bottomText={errors?.password?.message}>
+				<Input.TextField
+					type="password"
+					placeholder="Enter your Password"
+					{...register('password')}
+					error={errors?.password?.message}
+					width={500}
+				/>
 			</Input>
-			<NextBtn type="button">Explore</NextBtn>
+			<ForgotPasswordLink to={'/password-resets'}>Forgot Password</ForgotPasswordLink>
+			<NextBtn>Explore</NextBtn>
 			<Flex justifyContent="center">
 				<Text color="var(--color-gray-600)">Don't have an account?</Text>
 				<Spacer direction="horizontal" size={8} />
@@ -31,13 +70,7 @@ const SigninForm = () => {
 	);
 };
 
-const Form = styled.form`
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-`;
-
-const Wrapper = styled.div`
+const TitleWrapper = styled.div`
 	div {
 		font-size: 40px;
 	}
@@ -57,8 +90,19 @@ const NextBtn = styled.button`
 	}
 `;
 
+const ForgotPasswordLink = styled(Link)`
+	margin-left: auto;
+	font-size: 14px;
+	color: var(--color-blue-200);
+
+	&:hover {
+		text-decoration: underline;
+	}
+`;
+
 const SignUpLink = styled(Link)`
 	font-weight: 600;
+
 	&:hover {
 		text-decoration: underline;
 	}

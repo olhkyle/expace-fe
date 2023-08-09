@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { HTMLAttributes } from 'react';
+import styled from '@emotion/styled';
 
 interface MainProps extends HTMLAttributes<HTMLElement> {
 	onClick: () => void;

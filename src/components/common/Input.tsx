@@ -10,6 +10,8 @@ import {
 	forwardRef,
 } from 'react';
 import { useId } from '../../hooks/useId';
+import { FieldError } from 'react-hook-form';
+import { Flex, Text } from '.';
 
 interface InputProps extends HTMLAttributes<HTMLDivElement> {
 	label?: ReactNode;
@@ -28,7 +30,7 @@ const Input = ({ label, children, bottomText, ...props }: InputProps) => {
 			<label
 				htmlFor={id}
 				css={{
-					display: 'inline-block',
+					display: `${label ? 'inline-block' : 'none'}`,
 					padding: '4px 0',
 					fontSize: '14px',
 					fontWeight: '500',
@@ -51,16 +53,30 @@ interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'si
 	name: string;
 	placeholder: string;
 	width: number;
-	error?: boolean;
+	error?: string | FieldError;
 }
 
 Input.TextField = forwardRef(
 	({ type, name, placeholder, width = 320, error, ...props }: TextFieldProps, ref: ForwardedRef<HTMLInputElement>) => {
 		return (
-			<TextField type={type} name={name} placeholder={placeholder} width={width} error={error!} ref={ref} {...props} />
+			<TextField type={type} name={name} placeholder={placeholder} width={width} error={!!error} ref={ref} {...props} />
 		);
 	},
 );
+
+interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+	id: string;
+	width?: number;
+}
+
+Input.Checkbox = forwardRef(({ id, width = 100, ...props }: CheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
+	return (
+		<Flex direction="row" width={width}>
+			<Checkbox type="checkbox" id={id} ref={ref} {...props} />
+			<Text color="var(--color-black)">Please agree with our Terms of Service</Text>
+		</Flex>
+	);
+});
 
 const BottomText = styled.p<{ isError: boolean }>`
 	display: inline-block;
@@ -88,6 +104,20 @@ const TextField = styled.input<{ width: number; error: boolean }>`
 
 	@media screen and (min-width: 640px) {
 		width: ${({ width }) => `${width}px`};
+	}
+`;
+
+const Checkbox = styled.input`
+	margin-right: 1rem;
+	width: 18px;
+	height: 18px;
+	border: 1px solid black;
+	border-radius: 2px;
+	vertical-align: middle;
+	appearance: none;
+
+	&:checked {
+		background-color: var(--color-gray-600);
 	}
 `;
 

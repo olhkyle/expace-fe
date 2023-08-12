@@ -1,6 +1,9 @@
-# Experience Space Travel
+# 🚀 ExPace
 
-> 🚀 Currently Ongoing
+> 👉 Experience Space Travel
+
+## Status
+Currently ongoing
 
 ## Features
 

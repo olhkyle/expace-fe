@@ -8,11 +8,8 @@ import useSideNavActive from '../../store/useToggleState';
 
 const Nav = () => {
 	const navigate = useNavigate();
-	const [active, toggleActive, deActivate] = useSideNavActive(({ active, toggleActive, deActivate }) => [
-		active,
-		toggleActive,
-		deActivate,
-	]);
+
+	const [active, toggleActive, deActivate] = useSideNavActive(({ active, toggleActive, deActivate }) => [active, toggleActive, deActivate]);
 
 	return (
 		<>

@@ -1,16 +1,6 @@
+import { Children, ForwardedRef, HTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode, cloneElement, forwardRef } from 'react';
 import styled from '@emotion/styled';
-import {
-	Children,
-	ForwardedRef,
-	HTMLAttributes,
-	InputHTMLAttributes,
-	ReactElement,
-	ReactNode,
-	cloneElement,
-	forwardRef,
-} from 'react';
 import { useId } from '../../hooks/useId';
-import { FieldError } from 'react-hook-form';
 import { Flex, Text } from '.';
 
 interface InputProps extends HTMLAttributes<HTMLDivElement> {
@@ -52,27 +42,29 @@ interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'si
 	type: 'text' | 'password';
 	name: string;
 	placeholder: string;
+	error: string;
 	width: number;
-	error?: string | FieldError;
 }
 
 Input.TextField = forwardRef(
-	({ type, name, placeholder, width = 320, error, ...props }: TextFieldProps, ref: ForwardedRef<HTMLInputElement>) => {
+	({ type, name, placeholder, error, width = 320, ...props }: TextFieldProps, ref: ForwardedRef<HTMLInputElement>) => {
 		return (
-			<TextField type={type} name={name} placeholder={placeholder} width={width} error={!!error} ref={ref} {...props} />
+			<TextField type={type} name={name} placeholder={placeholder} ref={ref} error={error} autoComplete="off" width={width} {...props} />
 		);
 	},
 );
 
 interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
 	id: string;
+	name: string;
+	error: string;
 	width?: number;
 }
 
-Input.Checkbox = forwardRef(({ id, width = 100, ...props }: CheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
+Input.Checkbox = forwardRef(({ id, name, error, width = 100, ...props }: CheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
 	return (
 		<Flex direction="row" width={width}>
-			<Checkbox type="checkbox" id={id} ref={ref} {...props} />
+			<Checkbox type="checkbox" id={id} name={name} ref={ref} error={error} {...props} />
 			<Text color="var(--color-black)">Please agree with our Terms of Service</Text>
 		</Flex>
 	);
@@ -81,12 +73,12 @@ Input.Checkbox = forwardRef(({ id, width = 100, ...props }: CheckboxProps, ref: 
 const BottomText = styled.p<{ isError: boolean }>`
 	display: inline-block;
 	margin-top: 4px;
-	color: ${({ isError }) => (isError ? 'var(--color-red)' : 'var(--color-gray-400)')};
+	color: ${({ isError }) => (isError ? 'var(--color-blue-300)' : 'var(--color-gray-400)')};
 	font-size: 14px;
 	font-weight: 400;
 `;
 
-const TextField = styled.input<{ width: number; error: boolean }>`
+const TextField = styled.input<{ width: number; error: string }>`
 	margin: 0;
 	padding: 0.75rem 1rem;
 	width: 340px;
@@ -95,11 +87,10 @@ const TextField = styled.input<{ width: number; error: boolean }>`
 	border: none;
 	border-radius: 8px;
 	outline: none;
-	box-shadow: ${({ error }) => (error ? 'inset 0 0 0 1px var(--color-red)' : 'inset 0 0 0 1px var(--color-gray-400)')};
+	box-shadow: ${({ error }) => (error ? 'inset 0 0 0 1px var(--color-blue-300)' : 'inset 0 0 0 1px var(--color-gray-400)')};
 
 	&:focus {
-		box-shadow: ${({ error }) =>
-			error ? 'inset 0 0 0 2px var(--color-red)' : 'inset 0 0 0 1px var(--color-blue-200)'};
+		box-shadow: ${({ error }) => (error ? 'inset 0 0 0 2px var(--color-blue-300)' : 'inset 0 0 0 1px var(--color-blue-200)')};
 	}
 
 	@media screen and (min-width: 640px) {
@@ -107,11 +98,11 @@ const TextField = styled.input<{ width: number; error: boolean }>`
 	}
 `;
 
-const Checkbox = styled.input`
+const Checkbox = styled.input<{ error: string }>`
 	margin-right: 1rem;
 	width: 18px;
 	height: 18px;
-	border: 1px solid black;
+	border: 1px solid ${({ error }) => (error ? 'red' : 'black')};
 	border-radius: 2px;
 	vertical-align: middle;
 	appearance: none;

@@ -1,22 +1,21 @@
 import { z } from 'zod';
 
 const signinSchema = z.object({
-	email: z
-		.string()
-		.nonempty('This field has to be filled')
-		.email({ message: 'Invalid Email. Please enter a valid email address' }),
+	email: z.string().nonempty('This field has to be filled').email({ message: 'Email is invalid or already taken' }),
 	password: z
 		.string()
+		.nonempty('This field has to be filled')
 		.min(1, { message: 'Please type password' })
-		.regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/)
-		.min(8, 'Type more than 8 letters')
-		.max(15, 'Type less than 16 letters'),
+		.regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
+			message: `Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter`,
+		}),
 });
 
 const signupSchema = signinSchema
 	.extend({
 		username: z
 			.string()
+			.nonempty('This field has to be filled')
 			.min(4, { message: 'Username must be 4 characters or more' })
 			.max(10, { message: 'Username must be 10 characters or less' })
 			.regex(/^[a-zA-Z0-9_]+$/, { message: 'Username must contain only letters, numbers and underscore (_)' }),

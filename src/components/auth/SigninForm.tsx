@@ -24,8 +24,15 @@ const SigninForm = () => {
 		shouldFocusError: true,
 	});
 
-	const onSubmit = (data: SigninSchema) => {
-		console.log(data);
+	const onSubmit = async (data: SigninSchema) => {
+		try {
+			// TODO: asynchronous behavior
+			console.log(data);
+			// TODO: navigate to Main Page
+		} catch (e) {
+			reset();
+			console.error(e);
+		}
 	};
 
 	useEffect(() => {
@@ -42,20 +49,14 @@ const SigninForm = () => {
 			</TitleWrapper>
 			<Spacer size={12} />
 			<Input label="Email" bottomText={errors?.email?.message}>
-				<Input.TextField
-					type="text"
-					placeholder="Enter your email"
-					{...register('email')}
-					error={errors?.email?.message}
-					width={500}
-				/>
+				<Input.TextField type="text" placeholder="Enter your email" {...register('email')} error={errors?.email?.message!} width={500} />
 			</Input>
 			<Input label="Password" bottomText={errors?.password?.message}>
 				<Input.TextField
 					type="password"
 					placeholder="Enter your Password"
 					{...register('password')}
-					error={errors?.password?.message}
+					error={errors?.password?.message!}
 					width={500}
 				/>
 			</Input>
@@ -93,7 +94,7 @@ const NextBtn = styled.button`
 const ForgotPasswordLink = styled(Link)`
 	margin-left: auto;
 	font-size: 14px;
-	color: var(--color-blue-200);
+	color: var(--color-purple);
 
 	&:hover {
 		text-decoration: underline;

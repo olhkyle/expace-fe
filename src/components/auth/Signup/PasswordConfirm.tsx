@@ -1,14 +1,24 @@
+import { useEffect } from 'react';
 import { Input } from '../..';
+import { ComponentUseFormReturn, FieldName } from '../../../hooks/useFunnel';
 
-const PasswordConfirm = () => {
+interface PasswordConfirmProps extends ComponentUseFormReturn {
+	setFocus: (name: FieldName) => void;
+}
+
+const PasswordConfirm = ({ register, errors, setFocus }: PasswordConfirmProps) => {
+	useEffect(() => {
+		setFocus('password-confirm');
+	}, [setFocus]);
+
 	return (
-		<Input label="Password Confirm">
+		<Input label="Password Confirm" bottomText={errors?.['password-confirm']?.message}>
 			<Input.TextField
 				type="text"
-				name="password-confirm"
 				placeholder="type your password again"
 				width={500}
-				ref={node => node?.focus()}
+				{...register('password-confirm')}
+				error={errors?.['password-confirm']?.message!}
 			/>
 		</Input>
 	);

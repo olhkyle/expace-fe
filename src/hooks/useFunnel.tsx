@@ -1,47 +1,54 @@
 import { Children, HTMLAttributes, ReactElement, ReactNode, cloneElement } from 'react';
 import { useId } from './useId';
-import { Flex, Text } from '../components';
 import usePhase from '../store/usePhase';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 interface FunnelProps {
 	label?: ReactNode;
 	children: ReactElement;
 }
 
-const Funnel = ({ label, children, ...props }: FunnelProps) => {
+const Funnel = ({ children }: FunnelProps) => {
 	const child = Children.only(children);
 	const generatedId = useId('funnel');
 	const id = child?.props.id ?? generatedId;
 
-	return (
-		<Flex direction="row" {...props}>
-			<Text color="var(--color-black)">{label}</Text>
-			{cloneElement(child, { id, ...child.props })}
-		</Flex>
-	);
+	return <>{cloneElement(child, { id, ...child.props })}</>;
+};
+
+type DefaultFieldValues = { email: string; password: string; username: string; 'password-confirm': string; terms: true };
+
+export type FieldName = keyof DefaultFieldValues;
+
+export type ComponentUseFormReturn = {
+	register: UseFormRegister<DefaultFieldValues>;
+	errors: FieldErrors<DefaultFieldValues>;
 };
 
 interface FunnelStepProps extends Omit<HTMLAttributes<HTMLDivElement>, 'size'> {
-	id: string;
+	phase: number;
 }
 
-Funnel.Step = ({ children, ...props }: FunnelStepProps) => {
-	return <div {...props}>{children}</div>;
+Funnel.Step = ({ phase, children, ...props }: FunnelStepProps) => {
+	return (
+		<div data-step-state={phase} {...props}>
+			{children}
+		</div>
+	);
 };
 
-type Step = ReactNode;
+type Funnel = ReactNode;
 
-const useFunnel = (steps: Step[]) => {
-	const [phase, forward, backward, reset] = usePhase(({ phase, forward, backward, reset }) => [
-		phase,
-		forward,
-		backward,
-		reset,
-	]);
+const useFunnel = (funnels: Array<Funnel>) => {
+	const [phase, forward, backward, reset] = usePhase(({ phase, forward, backward, reset }) => [phase, forward, backward, reset]);
 
-	const Component = () => <>{steps[phase]}</>;
+	const FunnelComponent = () => (
+		<Funnel>
+			<Funnel.Step phase={phase}>{funnels[phase]}</Funnel.Step>
+		</Funnel>
+	);
 
-	return { Component, phase, actions: [forward, backward, reset] };
+	return { FunnelComponent, phase, actions: [forward, backward, reset] } as const;
 };
 
 export { Funnel, useFunnel };

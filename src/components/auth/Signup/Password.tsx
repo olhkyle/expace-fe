@@ -1,15 +1,24 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Input } from '../..';
+import { ComponentUseFormReturn, FieldName } from '../../../hooks/useFunnel';
 
-const Password = () => {
+interface PasswordProps extends ComponentUseFormReturn {
+	setFocus: (name: FieldName) => void;
+}
+
+const Password = ({ register, errors, setFocus }: PasswordProps) => {
+	useEffect(() => {
+		setFocus('password');
+	}, [setFocus]);
+
 	return (
-		<Input label="Password">
+		<Input label="Password" bottomText={errors?.password?.message}>
 			<Input.TextField
 				type="text"
-				name="password"
 				placeholder="type your password"
 				width={500}
-				ref={node => node?.focus()}
+				{...register('password')}
+				error={errors?.password?.message!}
 			/>
 		</Input>
 	);

@@ -14,8 +14,10 @@ interface Actions {
 const LAST_PHASE = 4;
 const KEY = 'signupPhase';
 
+const initialState: State = { phase: 0 };
+
 const usePhase = create<State & Actions>(set => ({
-	phase: JSON.parse(localStorage.getItem(KEY)!) ?? 0,
+	phase: JSON.parse(localStorage.getItem(KEY)!) ?? initialState.phase,
 	forward: () =>
 		set(({ phase }) => {
 			if (phase === LAST_PHASE) {
@@ -29,8 +31,8 @@ const usePhase = create<State & Actions>(set => ({
 	backward: () =>
 		set(({ phase }) => {
 			if (phase === 0) {
-				localStorage.setItem(KEY, JSON.stringify(0));
-				return { phase: 0 };
+				localStorage.setItem(KEY, JSON.stringify(initialState.phase));
+				return initialState;
 			}
 
 			localStorage.setItem(KEY, JSON.stringify(phase - 1));
@@ -38,8 +40,8 @@ const usePhase = create<State & Actions>(set => ({
 		}),
 	reset: () =>
 		set(() => {
-			localStorage.setItem(KEY, JSON.stringify(0));
-			return { phase: 0 };
+			localStorage.setItem(KEY, JSON.stringify(initialState.phase));
+			return initialState;
 		}),
 }));
 

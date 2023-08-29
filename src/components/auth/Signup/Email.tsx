@@ -1,10 +1,19 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Input } from '../..';
+import { ComponentUseFormReturn, FieldName } from '../../../hooks/useFunnel';
 
-const Email = () => {
+interface EmailProps extends ComponentUseFormReturn {
+	setFocus: (name: FieldName) => void;
+}
+
+const Email = ({ register, errors, setFocus }: EmailProps) => {
+	useEffect(() => {
+		setFocus('email');
+	}, [setFocus]);
+
 	return (
-		<Input label="Email">
-			<Input.TextField type="text" name="email" placeholder="type your email" width={500} ref={node => node?.focus()} />
+		<Input label="Email" bottomText={errors?.email?.message}>
+			<Input.TextField type="text" placeholder="type your email" width={500} {...register('email')} error={errors?.email?.message!} />
 		</Input>
 	);
 };

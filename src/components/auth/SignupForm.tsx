@@ -12,7 +12,8 @@ import Email from './Signup/Email';
 import Username from './Signup/Username';
 import Password from './Signup/Password';
 import PasswordConfirm from './Signup/PasswordConfirm';
-import { SIGNIN } from '../../constants/routes';
+import { routes } from '../../constants/routes';
+import axios from 'axios';
 
 type SignupSchema = z.infer<typeof signupSchema>;
 
@@ -75,12 +76,15 @@ const SignupForm = () => {
 		}
 	};
 
-	console.log(dirtyFields);
-	console.log(phase);
-	console.log(errors);
-	console.log(disabledState(phase));
+	// console.log(dirtyFields);
+	// console.log(phase);
+	// console.log(errors);
+	// console.log(disabledState(phase));
 
-	const onSubmit = (data: SignupSchema) => console.log(data);
+	const onSubmit = async (data: SignupSchema) => {
+		const result = await axios.get('/api/auth');
+		console.log(result);
+	};
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>
@@ -103,7 +107,7 @@ const SignupForm = () => {
 			<HaveAccountLinkWrapper>
 				<Text color="var(--color-gray-700)">
 					Already Have an account?{' '}
-					<HaveAccountLink to={SIGNIN} onClick={reset}>
+					<HaveAccountLink to={routes.SIGNIN} onClick={reset}>
 						Sign In
 					</HaveAccountLink>
 				</Text>

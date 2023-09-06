@@ -1,12 +1,14 @@
+import { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Flex, Form, Input, Spacer, Text } from '..';
-import { Link } from 'react-router-dom';
-import { SIGNUP } from '../../constants/routes';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Flex, Form, Input, Spacer, Text } from '..';
+import { routes } from '../../constants/routes';
 import { signinSchema } from './schema';
-import { useEffect } from 'react';
+import { signin } from '../../api/auth';
+import useAuth from '../../store/useAuth';
 
 interface SigninFormProps {}
 
@@ -24,14 +26,20 @@ const SigninForm = () => {
 		shouldFocusError: true,
 	});
 
-	const onSubmit = async (data: SigninSchema) => {
+	const navigate = useNavigate();
+	const [user, setUser] = useAuth(({ user, setUser }) => [user, setUser]);
+
+	console.log(user);
+
+	const onSubmit = async (userData: SigninSchema) => {
 		try {
-			// TODO: asynchronous behavior
-			console.log(data);
-			// TODO: navigate to Main Page
+			const { data: user } = await signin(userData);
+
+			setUser(user);
+			navigate(routes.HOME);
 		} catch (e) {
-			reset();
 			console.error(e);
+			reset();
 		}
 	};
 
@@ -65,7 +73,7 @@ const SigninForm = () => {
 			<Flex justifyContent="center">
 				<Text color="var(--color-gray-600)">Don't have an account?</Text>
 				<Spacer direction="horizontal" size={8} />
-				<SignUpLink to={SIGNUP}>Sign up</SignUpLink>
+				<SignUpLink to={routes.SIGNUP}>Sign up</SignUpLink>
 			</Flex>
 		</Form>
 	);

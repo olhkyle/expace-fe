@@ -5,12 +5,15 @@ import { Global } from '@emotion/react';
 import GlobalStyle from './styles/GlobalStyle';
 import { Layout } from './components';
 import { Home, Reservation, SignIn, SignUp, Space, About, ForgotPassword } from './pages';
+import { routes } from './constants/routes';
+import AuthenticationGuard from './components/AuthenticationGuard';
+import { NavermapsProvider } from 'react-naver-maps';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			retry: 0,
-			suspense: true,
+			// suspense: true,
 		},
 	},
 });
@@ -42,7 +45,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/reservation',
-				element: <Reservation />,
+				element: <AuthenticationGuard redirectTo={routes.SIGNIN} element={<Reservation />} />,
 			},
 			{
 				path: '/about',
@@ -54,11 +57,13 @@ const router = createBrowserRouter([
 
 const App = () => {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<Global styles={GlobalStyle} />
-			<RouterProvider router={router} />
-			<ReactQueryDevtools initialIsOpen={false} />
-		</QueryClientProvider>
+		<NavermapsProvider ncpClientId={import.meta.env.VITE_NAVER_MAP_API_CLIENTID}>
+			<QueryClientProvider client={queryClient}>
+				<Global styles={GlobalStyle} />
+				<RouterProvider router={router} />
+				<ReactQueryDevtools initialIsOpen={false} />
+			</QueryClientProvider>
+		</NavermapsProvider>
 	);
 };
 

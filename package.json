@@ -2,7 +2,6 @@
 	"name": "spacepop",
 	"private": true,
 	"version": "0.0.0",
-	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
@@ -17,6 +16,7 @@
 		"@hookform/resolvers": "^3.2.0",
 		"@tanstack/react-query": "^4.32.5",
 		"@tanstack/react-query-devtools": "^4.32.5",
+		"@types/navermaps": "^3.6.5",
 		"axios": "^1.4.0",
 		"framer-motion": "^10.15.0",
 		"lodash": "^4.17.21",
@@ -24,6 +24,7 @@
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.45.2",
 		"react-icons": "^4.10.1",
+		"react-naver-maps": "^0.1.2",
 		"react-router-dom": "^6.14.2",
 		"zod": "^3.21.4",
 		"zustand": "^4.4.0"

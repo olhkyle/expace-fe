@@ -1,18 +1,18 @@
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
+import { HTMLAttributes } from 'react';
 
-const SButton = styled.button`
-	padding: 0.6rem 1.2rem;
-	border-radius: 8px;
-	font-size: 1rem;
-	font-weight: 600;
-`;
+interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+	type: 'button' | 'submit';
+	onClick: () => void;
+}
 
-const Button = ({ children, onClick, ...props }: { children: ReactNode; onClick: () => void }) => {
+const Button = ({ type, onClick, ...props }: ButtonProps) => {
 	return (
-		<SButton type="button" onClick={onClick} {...props}>
-			{children}
-		</SButton>
+		<button
+			type={type}
+			css={{ padding: '0.6rem 1.2rem', borderRadius: '8px', fontSize: '1rem', fontWeight: '600' }}
+			onClick={onClick}
+			{...props}
+		/>
 	);
 };
 
